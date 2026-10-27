@@ -55,5 +55,12 @@ public class DisjointSetTest {
         manyDs.union(0, 9);
         check(manyDs.count() ==1, "Count should drop to 1 after merging two sets");
         System.out.println(failed == 0 ? "All checks passed." : failed + " checks failed.");
+        DisjointSet extra = new DisjointSet(3);
+
+        check(extra.count() == 3, "Three separate sets");
+        check(extra.union(0, 1), "Join two sets");
+        check(extra.connected(0, 1), "Elements are connected");
+        check(!extra.union(0, 1), "Cannot join same set twice");
+        check(extra.count() == 2, "Two sets remain");
     }
 }
