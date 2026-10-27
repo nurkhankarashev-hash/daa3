@@ -173,6 +173,15 @@ java -cp out Main
 All DSU checks passed.
 
 The tiny, small and dag examples passed all 13 output checks.
+### Additional Checks
+
+I added more tests for the DisjointSet class.
+
+The new tests check the number of sets, joining
+two elements, checking connections, and preventing
+duplicate unions.
+
+These tests help me check that DSU works correctly.
 
 ## AI Use
 
