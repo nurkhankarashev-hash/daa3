@@ -14,19 +14,19 @@ I used DSU, Kruskal, Prim, DFS and Kosaraju algorithms. The program also finds t
 ## Program Output
 
 ```text
-Broken: 71
-Kept: 56
-Last broken wall: 96
-MST cost: 21998
-Heaviest broken wall: 738
-Path length: 21
-DFS visited: 64
-Dead ends: 23
+Broken: 109
+Kept: 90
+Last broken wall: 188
+MST cost: 32188
+Heaviest broken wall: 849
+Path length: 33
+DFS visited: 50
+Dead ends: 34
 Zones: 9
-Largest zone: 15
+Largest zone: 20
 Is DAG: 0
-Flow stages: 6
-Fastest route cost: 22
+Flow stages: 7
+Fastest route cost: 20
 ```
 
 ## Mission 0 — Disjoint Set Union
