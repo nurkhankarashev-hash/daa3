@@ -68,7 +68,7 @@ Prim starts from one cell and adds the cheapest connection to a new cell.
 
 Both algorithms return the same minimum total cost.
 
-My MST cost is 21998.
+My MST cost is 32188.
 
 ## Mission 3 — Escape
 
@@ -80,7 +80,7 @@ DFS uses a stack instead of recursion to avoid stack overflow on large mazes.
 
 The maze is a tree. It connects every cell and has no cycles. In a tree, there is exactly one path between any two cells.
 
-My path length is 21.
+My path length is 33.
 
 ## Mission 4 — Zones
 
@@ -110,7 +110,7 @@ The graph of zones has no cycles. We can process each zone once in topological o
 
 The algorithm takes O(Z + S) time, where Z is the number of zones and S is the number of slides.
 
-My fastest route cost is 22.
+My fastest route cost is 20.
 
 ## Mission 6 — Git
 
@@ -133,9 +133,9 @@ Run `java -cp out Bench` and enter the average times from your computer.
 
 | Maze size | Kruskal (ms) | Prim (ms) |
 |---|---|---|
-| 100×100 | TODO | TODO |
-| 300×300 | TODO | TODO |
-| 1000×1000 | TODO | TODO |
+| 100×100 | 39 | 25 |
+| 300×300 | 207 | 187 |
+| 1000×1000 | 2416 | 3009 |
 
 Both algorithms take more time when the maze gets bigger.
 For 100x100 and 300x300, Prim was faster.
