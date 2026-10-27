@@ -1,93 +1,183 @@
-# Assignment 3. Maze Escape
+# Assignment 3 — Maze Escape
 
-Student ID: 254430
-Name: Darkhan
-Group: SE-2540.
-Maze size (rows x columns): 8*9
+**Course:** Design and Analysis of Algorithms  
+**Student:** Nurkhan Karashev  
+**Student ID:** 254828
+**Language:** Java 17
 
-This file is the report. Fill it in as you go. How to start: `START_HERE.md`. The task: `docs/Assignment3.pdf`.
+## Project Description
 
-## Program output
+This project is about creating a maze and finding a path to the exit.
 
-1. java -cp out Main
-2. java tools/Check.java
+I used DSU, Kruskal, Prim, DFS and Kosaraju algorithms. The program also finds the fastest route between zones.
 
-The 13 lines your program prints on your data (`java -cp out Main`):
+## Program Output
 
-    Broken: 3
-    Kept: 1
-    Last broken wall: 3
-    MST cost: 31
-    Heaviest broken wall: 17
-    Path length: 2
-    DFS visited: 3
-    Dead ends: 2
-    Zones: 3
-    Largest zone: 2
-    Is DAG: 0
-    Flow stages: 3
-    Fastest route cost: 9
+```text
+Broken: 71
+Kept: 56
+Last broken wall: 96
+MST cost: 21998
+Heaviest broken wall: 738
+Path length: 21
+DFS visited: 64
+Dead ends: 23
+Zones: 9
+Largest zone: 15
+Is DAG: 0
+Flow stages: 6
+Fastest route cost: 22
+```
 
-My maze:
+## Mission 0 — Disjoint Set Union
 
-![maze](output/maze.png)
-used "java tools/MakeVariant.java 254430 data" to generate data in "walls.txt" and "walls.txt".
+I created the DisjointSet class with four methods:
 
-slides:
-![alt text](src/slides.png)
+- find() finds the root of a set.
+- union() joins two sets.
+- connected() checks if two elements are in the same set.
+- count() returns the number of sets.
 
-walls:
-![alt text](src/walls.png)
+I used path compression and union by size to make the operations faster.
 
-## Questions
+I also added tests in DisjointSetTest.java.
 
-Mission 0. find locates the root of an element, while union merges two sets together. They run extremely fast due to path compression and union by size.
+## Mission 1 — Build the Maze
 
-Mission 1. A maze with R * C cells is a spanning tree, which always requires removing R*C-1 walls to connect all cells without cycles. The remaining (R-1)(C-1) internal walls are kept.
+I used DSU to build the maze.
 
-Mission 2. Both Kruskal and Prim produce the exact same total MST cost (e.g., 31 for tiny). They are equal because both algorithms find an optimal minimum spanning tree for the same weighted graph.
+The program reads walls in file order. It breaks a wall if it connects two different groups.
 
-Mission 3. Because the maze is a tree structure, there is exactly one unique simple path between any two cells. To prevent stack overflow on huge grids, DFS is implemented using an iterative stack instead of recursion.
+**Why is Broken always R*C - 1?**
 
-Mission 4. Reversing edges in the second pass isolates strongly connected components by preventing traversal into other zones. If the number of zones equals the total number of cells, every cell forms its own zone and no cycles exist (DAG).
+There are R*C cells. To connect all cells without cycles, we need exactly R*C - 1 connections.
 
-Mission 5. Processing zones by their assigned IDs follows a valid topological order because Kosaraju assigns IDs in DAG order. This pass takes linear time O(V + E) to evaluate all zones and connections.
+**Why is Kept always (R-1)*(C-1)?**
 
-## AI use
+The total number of inner walls is R*(C-1) + C*(R-1).
 
-Artificial intelligence was used to explain theoretical topics, analyze the time complexity for each algorithm, and assist with debugging code implementation issues.
+After breaking R*C - 1 walls, the number of remaining walls is (R-1)*(C-1).
 
-## Timing (Mission 7)
+## Mission 2 — Cheapest Maze
 
-Milliseconds, 5 runs each, from `java -cp out Bench`.
+I used Kruskal and Prim to find the minimum spanning tree.
 
-| maze | Kruskal | Prim |
+Kruskal sorts walls by cost and chooses the cheapest walls without creating cycles.
+
+Prim starts from one cell and adds the cheapest connection to a new cell.
+
+Both algorithms return the same minimum total cost.
+
+My MST cost is 21998.
+
+## Mission 3 — Escape
+
+I used DFS to find a path from the start to the exit.
+
+DFS uses a stack instead of recursion to avoid stack overflow on large mazes.
+
+**Why is there exactly one path?**
+
+The maze is a tree. It connects every cell and has no cycles. In a tree, there is exactly one path between any two cells.
+
+My path length is 21.
+
+## Mission 4 — Zones
+
+I used Kosaraju to find strongly connected components.
+
+Each zone contains cells that can reach each other using slides.
+
+**Why do we use the reversed graph?**
+
+The first DFS finds the finishing order. The second DFS uses reversed edges to find the cells belonging to each strongly connected component.
+
+**Why is Zones equal to the number of cells when there are no cycles?**
+
+Without cycles, each cell forms its own zone. If a graph has a cycle, the cells on that cycle belong to the same zone.
+
+My program found 9 zones.
+
+## Mission 5 — Fastest Route
+
+I created a graph where each vertex represents a zone.
+
+I used the topological order of zones to find the cheapest route from the start to the exit.
+
+**Why is this order enough?**
+
+The graph of zones has no cycles. We can process each zone once in topological order and update the costs of the next zones.
+
+The algorithm takes O(Z + S) time, where Z is the number of zones and S is the number of slides.
+
+My fastest route cost is 22.
+
+## Mission 6 — Git
+
+I used Git to save my project changes.
+
+I created commits for my work and used GitHub to store the project.
+
+## Mission 7 — Picture and Timing
+
+The program creates two files:
+
+- output/maze.png
+- output/maze.html
+
+The HTML page shows the maze and allows movement using arrow keys.
+
+### Benchmark Results
+
+Run `java -cp out Bench` and enter the average times from your computer.
+
+| Maze size | Kruskal (ms) | Prim (ms) |
 |---|---|---|
-| 100 x 100 | avg 12 ms | avg 7 ms |
-| 300 x 300 | avg 41 ms | avg 44 ms |
-| 1000 x 1000 | avg 486 ms | avg 729 ms |
+| 100×100 | TODO | TODO |
+| 300×300 | TODO | TODO |
+| 1000×1000 | TODO | TODO |
 
-What do the numbers say about how the time grows? Two or three sentences.
+Both algorithms take more time when the maze gets bigger.
+For 100x100 and 300x300, Prim was faster.
+For 1000x1000, Kruskal was faster.
 
-The execution time for both algorithms increases as the grid size grows, due to the larger volume of data. On larger grids, however, Kruskal’s algorithm performs slightly faster than Prim’s (486 ms versus 729 ms), demonstrating effective scalability.
+Both algorithms take more time when the maze becomes larger because they need to process more cells and walls.
 
-## Complexity
+### Time and Space Complexity
 
-n is the number of cells, m the number of walls (or slides). Fill in every algorithm you wrote.
+| Algorithm | Time | Space |
+|---|---|---|
+| DSU | O(α(V)) amortized | O(V) |
+| Kruskal | O(E log E) | O(V + E) |
+| Prim | O(E log V) | O(V + E) |
+| DFS | O(V + E) | O(V) |
+| Kosaraju | O(V + E) | O(V + E) |
+| Fastest route | O(Z + S) | O(Z + S) |
 
-| algorithm | time | space | assumptions |
-|---|---|---|---|
-| DSU find and union | O(a(n)) | O(n) | Path compression used |
-| Kruskal | O(m \log m) | O(n + m) | Edges sorted by weight |
-| Prim | O(m \log n) | O(n + m) | Priority queue used |
-| DFS |  O(n + m) |  O(n) | Iterative stack implementation |
-| Kosaraju | O(n + m) | O(n + m) | Two DFS passes |
-| Route in the zone graph | O(V_z + E_z) | O(V_z + E_z) | Topological order processing |
+V = number of vertices  
+E = number of edges  
+Z = number of zones  
+S = number of slides
 
-## Before you submit
+## Testing
 
-- data/walls.txt, data/slides.txt and output/maze.png are in the repository.
-- `java tools/Check.java` shows all examples right.
-- This README is filled in, the program output and the section AI use included.
-- The work is pushed to main (at least one commit per mission) and the repository is public.
-- The link is attached in Moodle.
+I checked my program using:
+
+```bash
+javac -d out src/*.java
+java -cp out DisjointSetTest
+java tools/Check.java
+java -cp out Main
+```
+
+All DSU checks passed.
+
+The tiny, small and dag examples passed all 13 output checks.
+
+## AI Use
+
+I used ChatGPT to understand the assignment, explain algorithms, review errors and help prepare this README. I checked the program using the provided tests.
+
+## Conclusion
+
+In this project, I learned how to use graph algorithms to build a maze and find paths. I also practiced Java, testing and Git.

@@ -34,7 +34,7 @@ public class DisjointSetTest {
         check(chain.connected(0, 49), "all 50 elements are connected");
 
         DisjointSet selfDs = new DisjointSet(5);
-        check(selfDs.union(2, 2), "Union of an element with itself returns true");
+        check(!selfDs.union(2, 2), "Union of an element with itself returns false");
         check(!selfDs.union(1, 1), "UNion of already connected elements returns false");
 
         selfDs.union(0, 1);
